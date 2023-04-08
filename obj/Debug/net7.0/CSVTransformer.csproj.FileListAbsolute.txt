@@ -1,0 +1,15 @@
+C:\Users\Administrator\Desktop\TrumpMcDonaldz\CSVTransformer\bin\Debug\net7.0\CSVTransformer.exe
+C:\Users\Administrator\Desktop\TrumpMcDonaldz\CSVTransformer\bin\Debug\net7.0\CSVTransformer.deps.json
+C:\Users\Administrator\Desktop\TrumpMcDonaldz\CSVTransformer\bin\Debug\net7.0\CSVTransformer.runtimeconfig.json
+C:\Users\Administrator\Desktop\TrumpMcDonaldz\CSVTransformer\bin\Debug\net7.0\CSVTransformer.dll
+C:\Users\Administrator\Desktop\TrumpMcDonaldz\CSVTransformer\bin\Debug\net7.0\CSVTransformer.pdb
+C:\Users\Administrator\Desktop\TrumpMcDonaldz\CSVTransformer\obj\Debug\net7.0\CSVTransformer.csproj.AssemblyReference.cache
+C:\Users\Administrator\Desktop\TrumpMcDonaldz\CSVTransformer\obj\Debug\net7.0\CSVTransformer.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Administrator\Desktop\TrumpMcDonaldz\CSVTransformer\obj\Debug\net7.0\CSVTransformer.AssemblyInfoInputs.cache
+C:\Users\Administrator\Desktop\TrumpMcDonaldz\CSVTransformer\obj\Debug\net7.0\CSVTransformer.AssemblyInfo.cs
+C:\Users\Administrator\Desktop\TrumpMcDonaldz\CSVTransformer\obj\Debug\net7.0\CSVTransformer.csproj.CoreCompileInputs.cache
+C:\Users\Administrator\Desktop\TrumpMcDonaldz\CSVTransformer\obj\Debug\net7.0\CSVTransformer.dll
+C:\Users\Administrator\Desktop\TrumpMcDonaldz\CSVTransformer\obj\Debug\net7.0\refint\CSVTransformer.dll
+C:\Users\Administrator\Desktop\TrumpMcDonaldz\CSVTransformer\obj\Debug\net7.0\CSVTransformer.pdb
+C:\Users\Administrator\Desktop\TrumpMcDonaldz\CSVTransformer\obj\Debug\net7.0\CSVTransformer.genruntimeconfig.cache
+C:\Users\Administrator\Desktop\TrumpMcDonaldz\CSVTransformer\obj\Debug\net7.0\ref\CSVTransformer.dll
