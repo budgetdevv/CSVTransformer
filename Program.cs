@@ -1,6 +1,5 @@
 ﻿using System;
 using System.IO;
-using System.Runtime.InteropServices;
 using System.Text;
 
 namespace CSVTransformer
@@ -36,78 +35,18 @@ namespace CSVTransformer
 
             var Rows = Enumerator.Current.Split(',');
 
-            Console.WriteLine("Select rows to consider in bitwise flag! Input their index ( 0-based ), with (,) as delimiter!");
-
-            RowSelection:
-            var RowIndex = 0;
-            
-            var CurrentString = string.Empty;
-            
-            foreach (var Row in Rows)
-            {
-                CurrentString += $"{RowIndex++} | {Row}\n";
-            }
-
             var RowCount = Rows.Length;
             
-            var SelectedRowsIndicator = stackalloc byte[RowCount];
-
-            Console.WriteLine(CurrentString);
-
-            CurrentString = Console.ReadLine();
-
-            var SelectedRows = string.Empty;
-
-            var SelectedRowCount = 0;
-            
-            foreach (var SelectedRow in CurrentString.Split(','))
-            {
-                if (nint.TryParse(SelectedRow, out var SelectedRowIndex) && (uint) SelectedRowIndex < RowCount) //Cheap way to check if SelectedRowIndex is not negative
-                {
-                    SelectedRows += $"{Rows[SelectedRowIndex]},";
-
-                    SelectedRowCount++;
-                    
-                    SelectedRowsIndicator[SelectedRowIndex] = byte.MaxValue;
-
-                    continue;
-                }
-                
-                Console.WriteLine("Malformed indexes!");
-                
-                goto RowSelection;
-            }
-
-            if (SelectedRowCount > 64)
+            if (RowCount > 64)
             {
                 goto TooManyRows;
             }
-            
-            CurrentString = $"Selected rows are:\n{SelectedRows}";
 
-            CurrentString += "...Continue? ( Y / N )";
-            
-            ContinuePrompt:
-            Console.WriteLine(CurrentString);
-
-            switch (Console.ReadLine().ToUpper())
-            {
-                case "Y":
-                    break;
-                case "N":
-                    goto RowSelection;
-                default:
-                    goto ContinuePrompt;
-            }
-            
             //This is where the hard work begins!
 
             //TODO: Improve this heuristic
             var SB = new StringBuilder((int) new FileInfo(Path).Length);
-
-            SB.Append(SelectedRows);
-
-            //SelectedRows ( That is appended to SB ) ends with (,)
+            
             SB.Append("Flag");
 
             while (Enumerator.MoveNext())
@@ -139,24 +78,14 @@ namespace CSVTransformer
                     CurrentSegment = CurrentLine;
                 }
 
-                if (SelectedRowsIndicator[CurrentRowIndex++] == byte.MaxValue)
+                if (!int.TryParse(CurrentSegment, out var BoolInt) || (uint) BoolInt > 1)
                 {
-                    if (!int.TryParse(CurrentSegment, out var BoolInt) || (uint) BoolInt > 1)
-                    {
-                        goto MalformedData;
-                    }
-                    
-                    CurrentFlag |= ((ulong) BoolInt << CurrentSelectedSegmentIndex);
-                    
-                    CurrentSelectedSegmentIndex++;
+                    goto MalformedData;
                 }
-
-                else
-                {
-                    //Append CurrentSegment
-                    SB.Append(CurrentSegment);
-                    SB.Append(',');
-                }
+                    
+                CurrentFlag |= ((ulong) BoolInt << CurrentSelectedSegmentIndex);
+                    
+                CurrentSelectedSegmentIndex++;
 
                 CurrentLine = CurrentLine.Slice(CurrentSeparatorIndex + 1);
 
@@ -168,7 +97,7 @@ namespace CSVTransformer
                 //Append the flag to the end
                 SB.Append(CurrentFlag);
 
-                if (CurrentSelectedSegmentIndex != SelectedRowCount)
+                if (CurrentSelectedSegmentIndex != RowCount)
                 {
                     throw new Exception("Wtf");
                 }
@@ -180,25 +109,25 @@ namespace CSVTransformer
             Console.WriteLine("Done!");
             
             goto GetPath;
-            
+
             InvalidPath:
-            CurrentString = $"Invalid {Ext} file!";
+            var ErrorString = $"Invalid {Ext} file!";
+            goto PrintError;
+            
+            TooManyRows:
+            ErrorString = $"Too many rows! Maximum of 64!";
             goto PrintError;
             
             Empty:
-            CurrentString = "File is empty!";
+            ErrorString = "File is empty!";
             goto PrintError;
 
-            PrintError:
-            Console.WriteLine(CurrentString);
-            goto GetPath;
-            
-            TooManyRows:
-            Console.WriteLine("Too many selected rows! You may only have a maximum of 64");
-            goto RowSelection;
-            
             MalformedData:
-            Console.WriteLine("Data is malformed!");
+            ErrorString = "Data is malformed!";
+            goto PrintError;
+            
+            PrintError:
+            Console.WriteLine(ErrorString);
             goto GetPath;
         }
     }
