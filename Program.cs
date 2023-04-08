@@ -99,7 +99,7 @@ namespace CSVTransformer
 
                 if (CurrentSelectedSegmentIndex != RowCount)
                 {
-                    throw new Exception("Wtf");
+                    goto MalformedData;
                 }
             }
 
